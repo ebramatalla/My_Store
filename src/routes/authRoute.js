@@ -7,11 +7,15 @@ const {
   logoutFromAll,
 } = require("../controllers/authController");
 const { isAuth } = require("../middleware/isAuth");
+const {
+  signupValidator,
+  loginValidator,
+} = require("../utils/validate/authValidator");
 
 const router = express.Router();
 
-router.post("/signup", signUp);
-router.post("/login", login);
+router.post("/signup", signupValidator, signUp);
+router.post("/login", loginValidator, login);
 router.post("/logout", isAuth, logout);
 router.post("/logoutAll", isAuth, logoutFromAll);
 

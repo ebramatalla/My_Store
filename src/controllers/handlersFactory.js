@@ -9,7 +9,7 @@ exports.deleteOne = (Model) =>
       return next(new ApiError(`No document for this id ${id}`, 404)); // if  no document exists return error
     }
     document.remove();
-    res.status(204).send();
+    res.status(200).send({ data: "Document deleted successfully" });
   });
 
 exports.createOne = (Model) =>
