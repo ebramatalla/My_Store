@@ -47,6 +47,15 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+userSchema.methods.toJSON = function () {
+  const user = this;
+  const userObject = user.toObject();
+
+  delete userObject.confirmationCode;
+  delete userObject.password;
+  delete userObject.tokens;
+  return userObject;
+};
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   // Hashing user password

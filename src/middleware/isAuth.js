@@ -43,10 +43,7 @@ exports.isAuth = AsyncHandler(async (req, res, next) => {
   });
   if (!user) {
     return next(
-      new ApiError(
-        "The user that belong to this token does no longer exist",
-        401
-      )
+      new ApiError("Token expired, Please login to get access this route", 401)
     );
   }
   req.token = token;

@@ -9,6 +9,7 @@ const globalError = require("./src/middleware/errorMiddleware");
 const authRoute = require("..//server/src/routes/authRoute");
 const categoryRoute = require("..//server/src/routes/categoryRoute");
 const brandRoute = require("..//server/src/routes/brandRoute");
+const userRoute = require("..//server/src/routes/userRoute");
 
 app.use(express.json());
 
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(authRoute);
 app.use(categoryRoute);
 app.use(brandRoute);
+app.use(userRoute);
 
 app.use(globalError);
 
