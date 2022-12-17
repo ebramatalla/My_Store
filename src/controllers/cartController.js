@@ -15,13 +15,14 @@ const cartTotalPrice = (cart) => {
 
 // this function add product to cart
 exports.addProductToCart = asyncHandler(async (req, res, next) => {
-  const { productId } = req.body;
-  const product = await Product.findById(productId);
-  if (!product) {
-    return next(new ApiError("Product not found", 404));
+  var { productId } = req.body;
+  console.log(productId);
+  var product = await Product.findById(productId);
+  if (!product || product.quantity < 1) {
+    return next(new ApiError("Product not found or product sold out", 404));
   }
   // get cart of user
-  const cart = await Cart.findOne({ user: req.user._id });
+  var cart = await Cart.findOne({ user: req.user._id });
   // if cart is not found create a new cart
   if (!cart) {
     cart = await Cart.create({
@@ -101,9 +102,14 @@ exports.changeQuantityInCart = asyncHandler(async (req, res, next) => {
   const productIndex = cart.cartItems.findIndex(
     (item) => item._id.toString() === req.params.id
   );
-  console.log(productIndex);
   if (productIndex > -1) {
     const product = cart.cartItems[productIndex];
+    const productInStore = await Product.findById(product.product);
+    if (productInStore.quantity < quantity) {
+      return next(
+        new ApiError("the quantity you want is gt than we Have ", 400)
+      );
+    }
     product.quantity = quantity;
     cart.cartItems[productIndex] = product;
   } else {

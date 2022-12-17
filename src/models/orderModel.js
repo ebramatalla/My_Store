@@ -14,25 +14,10 @@ const orderSchema = new mongoose.Schema(
           ref: "Product",
         },
         quantity: Number,
-        color: String,
         price: Number,
       },
     ],
 
-    taxPrice: {
-      type: Number,
-      default: 0,
-    },
-    shippingAddress: {
-      details: String,
-      phone: String,
-      city: String,
-      postalCode: String,
-    },
-    shippingPrice: {
-      type: Number,
-      default: 0,
-    },
     totalOrderPrice: {
       type: Number,
     },
