@@ -12,7 +12,7 @@ const productSchema = new mongoose.Schema(
     description: {
       type: String,
       required: [true, "Product description is required"],
-      minlength: [20, "Too short product description"],
+      minlength: [10, "Too short product description"],
     },
     quantity: {
       type: Number,
@@ -36,6 +36,7 @@ const productSchema = new mongoose.Schema(
     brand: {
       type: mongoose.Schema.ObjectId,
       ref: "Brand",
+      required: [true, "Product must be belong to Brand"],
     },
   },
   { timestamps: true }

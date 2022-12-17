@@ -46,7 +46,6 @@ exports.getOne = (Model, populationOpt) =>
 exports.getAll = (Model) =>
   asyncHandler(async (req, res) => {
     const documents = await Model.find();
-    // Build query
 
     res.status(200).json({ results: documents.length, data: documents });
   });
