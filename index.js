@@ -11,6 +11,7 @@ const categoryRoute = require("..//server/src/routes/categoryRoute");
 const brandRoute = require("..//server/src/routes/brandRoute");
 const userRoute = require("..//server/src/routes/userRoute");
 const productRoute = require("..//server/src/routes/productRoute");
+const cartRoute = require("..//server/src/routes/cartRoute");
 
 app.use(express.json());
 
@@ -20,6 +21,7 @@ app.use(categoryRoute);
 app.use(brandRoute);
 app.use(userRoute);
 app.use(productRoute);
+app.use(cartRoute);
 
 app.use(globalError);
 
