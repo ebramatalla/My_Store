@@ -54,3 +54,25 @@ exports.logoutFromAll = asyncHandler(async (req, res, next) => {
   await req.user.save();
   res.send();
 });
+
+exports.getTokenWebSocket = asyncHandler((socket) => {
+  if (!socket.handshake.headers["token"]) {
+    return new Error("Invalid token please log in again");
+  }
+  const token = socket.handshake.headers["token"].replace("Bearer ", "");
+  if (!token) {
+    return new Error("Invalid token please log in again");
+  }
+  return token;
+});
+exports.getUserFromWebToken = asyncHandler(async (token) => {
+  const decode = jwt.verify(token, process.env.JWT_SECRET_KEY);
+  const user = await User.findOne({
+    _id: decode.userId,
+    "tokens.token": token,
+  });
+  if (!user) {
+    return new Error("Invalid token please log in again");
+  }
+  return user;
+});

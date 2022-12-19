@@ -4,6 +4,15 @@ const app = express();
 require("dotenv").config();
 require("./src/db/mongoose");
 const globalError = require("./src/middleware/errorMiddleware");
+require("./src/chat/chat");
+const http = require("http");
+const socketio = require("socket.io");
+const server = http.createServer(app);
+const io = socketio(server);
+const chat = require("./src/chat/chat");
+
+// chat
+chat(io);
 
 // routes
 const authRoute = require("..//server/src/routes/authRoute");
@@ -27,6 +36,6 @@ app.use(orderRoute);
 
 app.use(globalError);
 
-app.listen(process.env.PORT, () => {
+server.listen(process.env.PORT, () => {
   console.log("app listening on port " + process.env.PORT);
 });
