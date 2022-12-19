@@ -24,7 +24,7 @@ const addUser = ({ id, socketId }) => {
 };
 
 const removeUser = (id) => {
-  const index = users.findIndex((user) => user.id === id);
+  const index = users.findIndex((user) => user.socketId === id);
 
   if (index !== -1) {
     return users.splice(index, 1)[0];
@@ -56,7 +56,7 @@ const addAdmin = ({ id, socketId }) => {
 };
 
 const removeAdmin = (id) => {
-  const index = admins.findIndex((admin) => admin.id === id);
+  const index = admins.findIndex((admin) => admin.socketId === id);
 
   if (index !== -1) {
     return admins.splice(index, 1)[0];
@@ -64,7 +64,6 @@ const removeAdmin = (id) => {
 };
 
 const getAllAdmin = () => {
-  console.log(admins);
   return admins;
 };
 

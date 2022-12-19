@@ -22,6 +22,7 @@ const userRoute = require("..//server/src/routes/userRoute");
 const productRoute = require("..//server/src/routes/productRoute");
 const cartRoute = require("..//server/src/routes/cartRoute");
 const orderRoute = require("..//server/src/routes/orderRoute");
+const chatRoute = require("..//server/src/routes/chatRoute");
 
 app.use(express.json());
 
@@ -33,6 +34,7 @@ app.use(userRoute);
 app.use(productRoute);
 app.use(cartRoute);
 app.use(orderRoute);
+app.use(chatRoute);
 
 app.use(globalError);
 

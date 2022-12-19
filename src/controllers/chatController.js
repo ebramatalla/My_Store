@@ -1,4 +1,5 @@
 const Chat = require("..//models/chatModel");
+const asyncHandler = require("express-async-handler");
 
 exports.handleMessageToSupport = async (message, sender) => {
   const recipient = "Support@email.com";
@@ -40,3 +41,9 @@ exports.handleMessageFromSupport = async (message, recipient) => {
     previousChat.save();
   }
 };
+exports.getMyChats = asyncHandler(async (req, res, next) => {
+  const myChats = await Chat.find({
+    $or: [{ user1: req.user.email }, { user2: req.user.email }],
+  });
+  res.status(200).send({ myChats });
+});

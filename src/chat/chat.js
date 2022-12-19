@@ -11,8 +11,11 @@ const {
   addUser,
   getUser,
   getAllUser,
+  removeUser,
   addAdmin,
   getAllAdmin,
+
+  removeAdmin,
 } = require("./users");
 
 const chat = (io) => {
@@ -67,7 +70,8 @@ const chat = (io) => {
     });
 
     socket.on("disconnect", () => {
-      console.log("user has disconnect");
+      removeUser(socket.id);
+      removeAdmin(socket.id);
     });
   });
 };
