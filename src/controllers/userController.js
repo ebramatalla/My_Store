@@ -63,6 +63,7 @@ exports.changePassword = asyncHandler(async (req, res, next) => {
   }
   res.status(200).send({ data: document });
 });
+
 exports.deleteMyAccount = asyncHandler(async (req, res, next) => {
   const user = await User.findByIdAndDelete(req.user._id);
   user.remove();

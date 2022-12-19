@@ -1,5 +1,7 @@
 const users = [];
+const admins = [];
 
+// add user
 const addUser = ({ id, socketId }) => {
   // Clean the data
 
@@ -35,10 +37,43 @@ const getUser = (id) => {
 const getAllUser = () => {
   return users;
 };
+// add user
+const addAdmin = ({ id, socketId }) => {
+  // Check for existing user
+  const existingAdmin = admins.find((admin) => {
+    return admin.id === id;
+  });
+
+  if (existingAdmin) {
+    return {
+      error: "Username is in use!",
+    };
+  }
+
+  const admin = { id, socketId };
+  admins.push({ id, socketId });
+  return { admin };
+};
+
+const removeAdmin = (id) => {
+  const index = admins.findIndex((admin) => admin.id === id);
+
+  if (index !== -1) {
+    return admins.splice(index, 1)[0];
+  }
+};
+
+const getAllAdmin = () => {
+  console.log(admins);
+  return admins;
+};
 
 module.exports = {
   addUser,
   removeUser,
   getUser,
   getAllUser,
+  addAdmin,
+  removeAdmin,
+  getAllAdmin,
 };

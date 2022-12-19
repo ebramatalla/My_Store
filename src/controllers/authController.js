@@ -15,6 +15,7 @@ exports.signUp = asyncHandler(async (req, res, next) => {
     password: req.body.password,
   });
   const token = createToken(user._id);
+  user.tokens = user.tokens.concat({ token });
   await user.save();
   res.status(201).send({ data: user, token });
 });
@@ -61,7 +62,7 @@ exports.getTokenWebSocket = asyncHandler((socket) => {
   }
   const token = socket.handshake.headers["token"].replace("Bearer ", "");
   if (!token) {
-    return new Error("Invalid token please log in again");
+    return null;
   }
   return token;
 });
@@ -72,7 +73,7 @@ exports.getUserFromWebToken = asyncHandler(async (token) => {
     "tokens.token": token,
   });
   if (!user) {
-    return new Error("Invalid token please log in again");
+    return null;
   }
   return user;
 });
