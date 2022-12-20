@@ -16,7 +16,6 @@ const cartTotalPrice = (cart) => {
 // this function add product to cart
 exports.addProductToCart = asyncHandler(async (req, res, next) => {
   var { productId } = req.body;
-  console.log(productId);
   var product = await Product.findById(productId);
   if (!product || product.quantity < 1) {
     return next(new ApiError("Product not found or product sold out", 404));

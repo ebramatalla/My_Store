@@ -1,5 +1,6 @@
 const factory = require("./handlersFactory");
 const User = require("../models/userModel");
+const Product = require("../models/productModel");
 const asyncHandler = require("express-async-handler");
 const ApiError = require("../utils/apiError");
 const bcrypt = require("bcrypt");
@@ -74,3 +75,46 @@ exports.deleteMyAccount = asyncHandler(async (req, res, next) => {
 // @route   DELETE /users/:id
 // @access  Private/Admin
 exports.deleteUser = factory.deleteOne(User);
+
+//@description     add Product to wish list
+// @route          Post /addProductToWishList
+// @access         User
+exports.addProductToWishList = asyncHandler(async (req, res, next) => {
+  const product = await Product.findById(req.params.id);
+  if (!product) {
+    return next(new ApiError("Product not found", 404));
+  }
+  // check if product in wish list already
+  const productIndex = req.user.wishlist.findIndex(
+    (item) => item.toString() === product.id.toString()
+  );
+  if (productIndex > -1) {
+    return next(new ApiError("Product already in wish list", 400));
+  }
+  req.user.wishlist.push(product._id);
+  req.user.save();
+  res.status(200).send(req.user.wishlist);
+});
+
+// @description   remove product from wish list
+
+exports.removeProductFromWishList = asyncHandler(async (req, res, next) => {
+  const product = await Product.findById(req.params.id);
+  if (!product) {
+    return next(new ApiError("Product not found", 404));
+  }
+  // find index
+  const productIndex = req.user.wishlist.findIndex(
+    (item) => item.toString() === product.id.toString()
+  );
+  if (productIndex > -1) {
+    req.user.wishlist.splice(productIndex, 1);
+    req.user.save();
+    res.status(200).send(req.user.wishlist);
+  } else {
+    res.status(400).send({ message: "this item is not in your wish list" });
+  }
+});
+exports.myWishlist = asyncHandler(async (req, res, next) => {
+  res.status(200).send(req.user.wishlist);
+});
