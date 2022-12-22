@@ -10,6 +10,7 @@ const socketio = require("socket.io");
 const server = http.createServer(app);
 const io = socketio(server);
 const chat = require("./src/chat/chat");
+const fileUpload = require("express-fileupload");
 
 // chat
 chat(io);
@@ -25,6 +26,12 @@ const orderRoute = require("..//server/src/routes/orderRoute");
 const chatRoute = require("..//server/src/routes/chatRoute");
 
 app.use(express.json());
+app.use(
+  fileUpload({
+    useTempFiles: true,
+    limits: { fileSize: 50 * 2024 * 1024 },
+  })
+);
 
 // user routes
 app.use(authRoute);

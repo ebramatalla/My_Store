@@ -1,4 +1,3 @@
-const bcrypt = require("bcryptjs");
 const { body, param } = require("express-validator");
 const validatorMiddleware = require("../../middleware/validatorMiddleware");
 const User = require("../../models/userModel");

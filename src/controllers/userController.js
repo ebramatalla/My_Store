@@ -4,7 +4,7 @@ const Product = require("../models/productModel");
 const asyncHandler = require("express-async-handler");
 const ApiError = require("../utils/apiError");
 const bcrypt = require("bcrypt");
-
+const cloudinary = require("../utils/cloudinary");
 // @description get logged in user
 // @access      All/Logged
 exports.me = (req, res) => {
@@ -116,4 +116,23 @@ exports.removeProductFromWishList = asyncHandler(async (req, res, next) => {
 });
 exports.myWishlist = asyncHandler(async (req, res, next) => {
   res.status(200).send(req.user.wishlist);
+});
+
+// upload image
+exports.uploadImageProfile = asyncHandler(async (req, res, next) => {
+  const file = req.files.image;
+  if (req.user.image.publicID) {
+    const destroy = await cloudinary.uploader.destroy(req.user.image.publicID);
+  }
+  const result = await cloudinary.uploader.upload(file.tempFilePath, {
+    public_id: `${req.user._id}`,
+    resource_type: "auto",
+    folder: "images",
+  });
+  if (result) {
+    req.user.image.url = result.url;
+    req.user.image.publicID = result.public_id;
+    req.user.save();
+  }
+  res.status(200).send(result);
 });

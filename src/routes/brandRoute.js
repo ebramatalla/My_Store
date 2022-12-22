@@ -7,7 +7,7 @@ const {
   deleteBrand,
 } = require("../controllers/brandController");
 const router = express.Router();
-const isAuth = require("../middleware/isAuth");
+const { isAuth } = require("../middleware/isAuth");
 const isRole = require("../middleware/isRole");
 const { Roles } = require("../models/userModel");
 const {

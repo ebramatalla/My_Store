@@ -44,6 +44,10 @@ const userSchema = new mongoose.Schema(
         },
       },
     ],
+    image: {
+      publicID: String,
+      url: String,
+    },
   },
   { timestamps: true }
 );

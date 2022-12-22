@@ -9,6 +9,7 @@ const {
   addProductToWishList,
   removeProductFromWishList,
   myWishlist,
+  uploadImageProfile,
 } = require("../controllers/userController");
 const { isAuth } = require("../middleware/isAuth");
 const isRole = require("../middleware/isRole");
@@ -52,6 +53,8 @@ router.delete(
   removeProductFromWishListValidator,
   removeProductFromWishList
 );
+
+router.post("/uploadProfile", isAuth, uploadImageProfile);
 
 // for admin
 router.delete(

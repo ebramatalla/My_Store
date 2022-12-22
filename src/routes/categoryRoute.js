@@ -7,7 +7,7 @@ const {
   deleteCategory,
 } = require("../controllers/categoryController");
 const router = express.Router();
-const isAuth = require("../middleware/isAuth");
+const { isAuth } = require("../middleware/isAuth");
 const isRole = require("../middleware//isRole");
 const { Roles } = require("../models/userModel");
 const {
