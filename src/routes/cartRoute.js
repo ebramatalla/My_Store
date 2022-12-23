@@ -4,6 +4,7 @@ const {
   getMyCart,
   removeItemFromCart,
   changeQuantityInCart,
+  checkOutCart,
 } = require("../controllers/cartController");
 const { isAuth } = require("../middleware/isAuth");
 const isRole = require("../middleware/isRole");
@@ -37,5 +38,7 @@ router.patch(
   changeQuantityInCartValidator,
   changeQuantityInCart
 );
+
+router.post("/checkOutCart/:id", isAuth, isRole([Roles.user]), checkOutCart);
 
 module.exports = router;

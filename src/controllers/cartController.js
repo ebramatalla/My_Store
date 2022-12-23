@@ -1,5 +1,8 @@
 const asyncHandler = require("express-async-handler");
 const ApiError = require("../utils/apiError");
+require("dotenv").config();
+
+const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
 const Product = require("../models/productModel");
 const Cart = require("../models/cartModel");
@@ -121,4 +124,33 @@ exports.changeQuantityInCart = asyncHandler(async (req, res, next) => {
     numOfCartItems: cart.cartItems.length,
     data: cart,
   });
+});
+
+// Stripe
+exports.checkOutCart = asyncHandler(async (req, res, next) => {
+  const cart = await Cart.findById(req.params.id);
+  if (!cart) {
+    return next(
+      new ApiError(`There is no such cart with id ${req.params.id}`, 404)
+    );
+  }
+  const totalOrderPrice = cart.totalCartPrice;
+
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ["card"],
+    mode: "payment",
+    line_items: [
+      {
+        name: req.user.name,
+        amount: totalOrderPrice * 100,
+        currency: "egp",
+        quantity: 1,
+      },
+    ],
+    success_url: `https://www.google.com/`,
+    cancel_url: "https://www.youtube.com/",
+    customer_email: req.user.email,
+    client_reference_id: req.params.cartId,
+  });
+  res.status(200).json({ status: "success", session });
 });
