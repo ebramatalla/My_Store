@@ -4,8 +4,8 @@ ability to communicate with the owners of the site directly through Live Chat
 
 Tech : NodeJs , Express ,Mongoose ,Socket io , Jwt ,cloudinary
 
-Features : in this Version  ( Live Chat Using Socket Io - every user have wish list and cart - validation on every req come ) 
-          - next Version (make intgration with stripe - having  auction on pruduct  )
+Features : in this Version  ( Live Chat Using Socket Io - every user have wish list and cart - validation on every req come , intgration with stripe - ) 
+          - next Version ( having  auction on pruduct  )
 
 SetUp Project : npm install //
 use Postman to test Api 
